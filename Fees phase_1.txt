@@ -1,0 +1,115 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Student {
+    private int id;
+    private String name;
+    private double balance;
+
+    public Student(int id, String name) 
+    {
+        this.id = id;
+        this.name = name;
+        this.balance = 0.0;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public double getBalance() 
+    {
+        return balance;
+    }
+
+    public void addPayment(double amount) 
+    {
+        balance += amount;
+    }
+
+    public void displayStudentDetails()
+    { 
+        System.out.println("Student Name: " + name);
+        System.out.println("Current Balance: $" + balance);
+    }
+}
+
+public class StudentExample {
+    public static List<Student> students = new ArrayList<>();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\nFees Management System");
+             System.out.println("------------------------------------------");
+            System.out.println("1. Add Student");
+            System.out.println("2. Make Payment");
+            System.out.println("3. View Student Details");
+            System.out.println("4. Exit");
+            System.out.println("-------------------------------------------");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            
+            switch (choice) {
+                
+                case 1:
+                    System.out.print("Enter Student ID: ");
+                    int id = scanner.nextInt();
+                    System.out.print("Enter Student Name: ");
+                    String name = scanner.next();
+                    students.add(new Student(id, name));
+                    System.out.println("Student added successfully.");
+                    break;
+                    
+                case 2:
+                    System.out.println("Enter Student ID: ");
+                    int paymentId = scanner.nextInt();
+                    System.out.println("Enter Payment Amount:");
+                    double amount = scanner.nextDouble();
+                    for (Student student : students) {
+                        if (student.getId() == paymentId) 
+                        {
+                            student.addPayment(amount);
+                            System.out.println("Payment recorded successfully.");
+                        }
+                    }
+                    break;
+                    
+                case 3:
+                    System.out.print("Enter Student ID: ");
+                    int viewId = scanner.nextInt();
+                    boolean found = false;
+                    for (Student student : students) 
+                    {
+                        if (student.getId() == viewId) 
+                        {
+                            student.displayStudentDetails();
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        System.out.println("Student not found with ID: " + viewId);
+                    }
+                    break;
+                    
+                case 4:
+                    System.out.println("Exiting...");
+                    break;
+                    
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 4);
+    }
+}
